@@ -7,6 +7,8 @@ paths:
   /books:
     get:
       summary: Lists all books in the store
+      tags:
+        - book
       responses:
         200:
           description: Retrieves the list of books in the store with success
@@ -18,6 +20,8 @@ paths:
                   $ref: '#/components/schemas/Book'
     post:
       summary: Registers a book in the store
+      tags:
+        - book
       responses:
         201:
           description: The book was created with success
@@ -43,6 +47,8 @@ paths:
           format: uuid
     get:
       summary: Gets a specific book
+      tags:
+        - book
       responses:
         200:
           description: Retrieves the book of the specified ID
@@ -52,6 +58,28 @@ paths:
                 $ref: '#/components/schemas/Book'
         404:
           description: Book was not found
+    put:
+      summary: Updates a book
+      tags:
+        - book
+      responses:
+        200:
+          description: The book was updated with success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        404:
+          description: The book was not found
+    delete:
+      summary: Deletes the book
+      tags:
+        - book
+      responses:
+        204:
+          description: The book was deleted with success
+        404:
+          description: The book was not found
 
 components:
   schemas:
