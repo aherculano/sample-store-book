@@ -6,7 +6,7 @@ namespace Domain.Repositories;
 
 public interface IBookRepository : IRepository
 {
-    Task<Result<IEnumerable<Book>>> GetAllBooksAsync();
+    Task<Result<IList<Book>>> GetAllBooksAsync();
 
     Task<Result<Book>> GetBookAsync(Guid uniqueIdentifier);
 
