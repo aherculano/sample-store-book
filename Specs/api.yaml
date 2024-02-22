@@ -1,0 +1,59 @@
+openapi: 3.0.0
+info:
+  title: Book Store API
+  description: A simple API to catalog the books of a book store
+  version: '1.0'
+paths:
+  /books:
+    get:
+      summary: Lists all books in the store
+      responses:
+        200:
+          description: Retrieves the list of books in the store with success
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Book'
+    post:
+      summary: Registers a book in the store
+      responses:
+        201:
+          description: The book was created with success
+          headers:
+            Location:
+              description: Where the book is located
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Book'
+
+  /books/{bookId}:
+    parameters:
+      - name: bookId
+        in: path
+        description: Unique Identifier of the book
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      summary: Gets a specific book
+      responses:
+        200:
+          description: Retrieves the book of the specified ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        404:
+          description: Book was not found
+
+components:
+  schemas:
+    Book:
+      $ref: 'Components/book.yaml#/components/schemas/Book'

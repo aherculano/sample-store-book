@@ -1,0 +1,27 @@
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        UniqueIdentifier:
+          type: string
+          description: The book UniqueIdentifier
+          format: uuid
+        Title:
+          type: string
+          description: The title of the Book
+          required: true
+        Author:
+          type: string
+          description: The author of the Book
+          required: true
+        Genre:
+          type: string
+          description: The genre of the Book
+          required: true
+        PublishDate:
+          type: string
+          description: The publish date of the Book
+          required: true
+          format: Datetime
+        # Title, Author, Genre, and Publish Date.
