@@ -5,14 +5,14 @@ namespace Infrastructure.Data.Repositories.Mappers;
 
 public static class BookMapper
 {
-    public static IList<Book> MapToDomain(this IList<BookDbo> source)
+    public static IEnumerable<Book> MapToDomain(this IList<BookDbo> source)
     {
         if (source is null)
         {
             return null;
         }
 
-        return source.Select(x => x.MapToDomain()).ToList();
+        return source.Select(x => x.MapToDomain());
     }
 
     public static Book MapToDomain(this BookDbo source)

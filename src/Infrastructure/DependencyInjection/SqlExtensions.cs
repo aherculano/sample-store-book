@@ -11,7 +11,7 @@ public static class SqlExtensions
 {
     public static IServiceCollection ConfigureSql(this IServiceCollection services)
     {
-        var settings = services.BuildServiceProvider().GetService<SQLSettings>();
+        var settings = services.BuildServiceProvider().GetService<SqlSettings>();
 
         services.AddDbContext<BookContext>(
             options => options.UseSqlServer(settings.ConnectionString));

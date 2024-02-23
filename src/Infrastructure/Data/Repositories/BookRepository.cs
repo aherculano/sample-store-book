@@ -17,7 +17,7 @@ public class BookRepository : IBookRepository
         _dbSet = dbSet;
     }
     
-    public async Task<Result<IList<Book>>> GetAllBooksAsync()
+    public async Task<Result<IEnumerable<Book>>> GetAllBooksAsync()
     {
         try
         {

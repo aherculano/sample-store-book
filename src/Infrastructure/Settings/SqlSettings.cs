@@ -1,6 +1,6 @@
 ﻿namespace Infrastructure.Settings;
 
-public class SQLSettings
+public class SqlSettings
 {
     public const string SettingsSection = "SqlSettings";
     
