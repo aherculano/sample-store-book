@@ -7,8 +7,7 @@ namespace Infrastructure.Data.Repositories;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly BookContext _bookContext;
-    
-    public IBookRepository BookRepository { get; private set; }
+    public IBookRepository BookRepository { get; set; }
     public UnitOfWork(BookContext context)
     {
         _bookContext = context;
@@ -19,6 +18,7 @@ public class UnitOfWork : IUnitOfWork
     {
         _bookContext.Dispose();
     }
+
 
     public async Task BeginTransactionAsync()
     {
