@@ -10,10 +10,7 @@ public class Program
         var host = Host.CreateDefaultBuilder(args)
             .ConfigureServices((hostContext, services) =>
             {
-                services.AddDbContext<MigrationsDbContext>((options) =>
-                {
-                    options.UseSqlServer("Server=localhost:1433;Database=SVC_BOOK_STORE;User Id=sa;Password=P4ssw0rd!;");
-                });
+                new Startup(hostContext.Configuration).ConfigureServices(services);
             })
             .Build();
         
