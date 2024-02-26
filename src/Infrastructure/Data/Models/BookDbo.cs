@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data.Models;
 
-[Table("Book")]
 public class BookDbo
 {
     public int Id { get; set; }
