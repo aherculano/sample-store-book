@@ -23,7 +23,7 @@ public class BookReviewsController(IMediator mediator) : ControllerBase
     {
         var command = new CreateBookReviewCommand(bookId, review);
         var result = await mediator.Send(command);
-        return CreatedAtAction("GetReviewById",new { reviewId = result.Value.UniqueIdentifier }, result.Value);
+        return CreatedAtAction("GetReviewById",new { bookId, reviewId = result.Value.UniqueIdentifier }, result.Value);
     }
 
     [HttpGet("{reviewId}")]

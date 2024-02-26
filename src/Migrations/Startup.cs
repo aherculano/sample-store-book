@@ -21,7 +21,10 @@ public class Startup
         
         services.AddDbContext<MigrationsDbContext>((options) =>
         {
-            options.UseSqlServer(sqlSettings.ConnectionString);
+            options.UseSqlServer(sqlSettings.ConnectionString, builder =>
+            {
+                builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+            });
         });
     }
 }
