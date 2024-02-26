@@ -81,7 +81,79 @@ paths:
         404:
           description: The book was not found
 
+  /books/{bookId}/reviews:
+    parameters:
+      - name: bookId
+        in: path
+        description: Unique Identifier of the book
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      summary: Gets the list of reviews for a specific book
+      tags:
+        - reviews
+      responses:
+        200:
+          description: Retrieves the list of reviews for a book with success
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Review'
+        404:
+          description: Not Found
+    post:
+      summary: Creates a Book review
+      tags:
+        - reviews
+      responses:
+        201:
+          description: The review was created with success
+          headers:
+            Location:
+              description: Where the review is located
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Review'
+  
+  /books/{bookId}/reviews/{reviewId}:
+    parameters:
+      - name: bookId
+        in: path
+        description: Unique Identifier of the book
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: reviewId
+        in: path
+        description: Unique Identifier of the review
+        required: true
+        schema:
+          type: string
+          format: uuid
+    delete:
+      summary: Deletes a book review
+      tags:
+        - reviews
+      responses:
+        204:
+          description: The review was deleted with success
+        404:
+          description: The review was not found
+
+
+
 components:
   schemas:
     Book:
       $ref: 'Components/book.yaml#/components/schemas/Book'
+    Review:
+      $ref: 'Components/book.review.yaml#/components/schemas/Review'

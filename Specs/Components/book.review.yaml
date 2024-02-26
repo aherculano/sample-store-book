@@ -1,0 +1,22 @@
+components:
+  schemas:
+    Review:
+      type: object
+      properties:
+        UniqueIdentifier:
+          type: string
+          description: The Review UniqueIdentifier
+          format: uuid
+        Reviewer:
+          type: string
+          description: The author of the Review
+          required: true
+        Review:
+          type: string
+          description: The Review
+          required: true
+        ReviewDate:
+          type: string
+          description: The date of the Review
+          format: Datetime
+        # Title, Author, Genre, and Publish Date.
