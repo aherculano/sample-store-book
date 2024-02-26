@@ -10,7 +10,7 @@ public record BookOutputDto(
     DateTimeOffset PublishDate);
 
 
-internal static class BookOutputDtoMapper
+public static class BookOutputDtoMapper
 {
     public static BookOutputDto MapToDto(this Book source)
     {

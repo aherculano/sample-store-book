@@ -8,7 +8,7 @@ public record BookInputDto(
     string Genre,
     DateTimeOffset PublishDate);
 
-internal static class BookInputDtoMapper
+public static class BookInputDtoMapper
 {
     public static Book MapToDomain(this BookInputDto source)
     {

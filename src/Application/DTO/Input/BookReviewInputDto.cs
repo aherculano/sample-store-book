@@ -6,7 +6,7 @@ public record BookReviewInputDto(
     string ReviewerName,
     string Review);
 
-internal static class BookReviewInputDtoMapper
+public static class BookReviewInputDtoMapper
 {
     public static BookReview MapToDomain(this BookReviewInputDto source)
     {
@@ -15,6 +15,6 @@ internal static class BookReviewInputDtoMapper
             return null;
         }
 
-        return new BookReview(source.Review, source.ReviewerName);
+        return new BookReview(source.ReviewerName, source.Review);
     }
 }

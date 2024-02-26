@@ -8,7 +8,7 @@ public record BookReviewOutputDto(
     string Review,
     DateTimeOffset ReviewDate);
 
-internal static class BookReviewOutputDtoMapper
+public static class BookReviewOutputDtoMapper
 {
     public static BookReviewOutputDto MapToDto(this BookReview source)
     {
