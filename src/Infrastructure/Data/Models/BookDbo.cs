@@ -17,4 +17,19 @@ public class BookDbo
     public string Genre { get; set; }
     
     public DateTimeOffset PublishDate { get; set; }
+    
+    public ICollection<BookReviewDbo> Reviews { get; set; }
+}
+
+public class BookReviewDbo
+{
+    public int Id { get; set; }
+    
+    public int BookId { get; set; }
+    
+    public string ReviewerName { get; set; }
+    
+    public string Review { get; set; }
+    
+    public BookDbo Book { get; set; }
 }

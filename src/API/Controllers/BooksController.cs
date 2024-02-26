@@ -19,8 +19,21 @@ public class BooksController(IMediator mediator) : ControllerBase
         return Ok(result.Value);
     }
 
+    [HttpGet("{bookUniqueIdentifier}")]
+    public async Task<ActionResult<BookOutputDto>> GetBookByIdAsync([FromRoute] Guid bookUniqueIdentifier)
+    {
+        var query = new GetBookByIdQuery(bookUniqueIdentifier);
+        var result = await mediator.Send(query);
+        if (result.IsFailed)
+        {
+            return NotFound();
+        }
+
+        return Ok(result.Value);
+    }
+    
     [HttpPost]
-    public async Task<ActionResult<BookOutputDto>> CreateBook([FromBody] BookInputDto bookInputDto)
+    public async Task<ActionResult<BookOutputDto>> CreateBookAsync([FromBody] BookInputDto bookInputDto)
     {
         var command = new CreateBookCommand(bookInputDto);
         var result = await mediator.Send(command);

@@ -17,3 +17,19 @@ public class BookConfiguration : IEntityTypeConfiguration<BookDbo>
         builder.ToTable("Book");
     }
 }
+
+public class BookReviewConfiguration : IEntityTypeConfiguration<BookReviewDbo>
+{
+    public void Configure(EntityTypeBuilder<BookReviewDbo> builder)
+    {
+        builder.Property(review => review.Id).UseIdentityColumn();
+        builder.Property(review => review.ReviewerName).IsRequired();
+        builder.Property(review => review.Review).IsRequired();
+        builder
+            .HasOne(review => review.Book)
+            .WithMany(b => b.Reviews)
+            .HasForeignKey(br => br.BookId)
+            .OnDelete(DeleteBehavior.Cascade);
+        builder.ToTable("BookReview");
+    }
+}

@@ -15,6 +15,7 @@ public class MigrationsDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new BookConfiguration());
+        modelBuilder.ApplyConfiguration(new BookReviewConfiguration());
     }
     
 }
