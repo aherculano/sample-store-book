@@ -69,9 +69,15 @@ namespace Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTimeOffset>("ReviewDate")
+                        .HasColumnType("datetimeoffset");
+
                     b.Property<string>("ReviewerName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UniqueIdentifier")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 

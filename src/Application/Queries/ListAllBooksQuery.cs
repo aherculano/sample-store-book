@@ -14,15 +14,10 @@ public class ListAllBooksQueryHandler(IUnitOfWork unitOfWork)
     public async Task<Result<IEnumerable<BookOutputDto>>> Handle(ListAllBooksQuery request, CancellationToken cancellationToken)
     {
         var productsResult = await unitOfWork.BookRepository.GetAllBooksAsync();
+        
         if (productsResult.IsSuccess)
         {
-            return Result.Ok(productsResult.Value.Select(x =>
-                new BookOutputDto(
-                    x.UniqueIdentifier,
-                    x.Title,
-                    x.Author,
-                    x.Genre,
-                    x.PublishDate)));
+            return Result.Ok(productsResult.Value.Select(x => x.MapToDto()));
         }
         
         return Result.Fail("Error");

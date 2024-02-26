@@ -1,7 +1,6 @@
 ﻿using Domain.Models;
 using Domain.Repositories;
 using FluentResults;
-using Infrastructure.Data.EntityFramework;
 using Infrastructure.Data.Models;
 using Infrastructure.Data.Repositories.Mappers;
 using Microsoft.EntityFrameworkCore;
@@ -10,18 +9,21 @@ namespace Infrastructure.Data.Repositories;
 
 public class BookRepository : IBookRepository
 {
-    private readonly DbSet<BookDbo> _dbSet;
+    private readonly DbSet<BookDbo> _bookBookDbSet;
+    private readonly DbSet<BookReviewDbo> _reviewDbSet;
     
-    public BookRepository(DbSet<BookDbo> dbSet)
+    public BookRepository(DbSet<BookDbo> bookDbSet, 
+        DbSet<BookReviewDbo> reviewDbSet)
     {
-        _dbSet = dbSet;
+        _bookBookDbSet = bookDbSet;
+        _reviewDbSet = reviewDbSet;
     }
     
     public async Task<Result<IEnumerable<Book>>> GetAllBooksAsync()
     {
         try
         {
-            var bookList =  await _dbSet.ToListAsync();
+            var bookList =  await _bookBookDbSet.ToListAsync();
             return Result.Ok(bookList.MapToDomain());
         }
         catch (Exception e)
@@ -35,7 +37,7 @@ public class BookRepository : IBookRepository
     {
         try
         {
-            var dbo = await _dbSet.FirstOrDefaultAsync(book => book.UniqueIdentifier == uniqueIdentifier);
+            var dbo = await _bookBookDbSet.FirstOrDefaultAsync(book => book.UniqueIdentifier == uniqueIdentifier);
 
             return Result.Ok(dbo.MapToDomain());
         }
@@ -46,13 +48,18 @@ public class BookRepository : IBookRepository
         }
     }
 
-    public async Task<Result<bool>> CreateBookAsync(Book book)
+    public async Task<Result<Book>> CreateBookAsync(Book book)
     {
         try
         {
-            var result = await _dbSet.AddAsync(book.MapToDbo());
+            var result = await _bookBookDbSet.AddAsync(book.MapToDbo());
 
-            return Result.Ok(result.State == EntityState.Added); 
+            if (result.State == EntityState.Added)
+            {
+                return Result.Ok(result.Entity.MapToDomain());
+            };
+
+            return Result.Fail(new Error("Book cannot be created!"));
         }
         catch (Exception e)
         {
@@ -69,5 +76,54 @@ public class BookRepository : IBookRepository
     public async Task<Result<Book>> UpdateBookAsync(Book book)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<Result<IEnumerable<BookReview>>> GetAllReviewsAsync(Guid bookUniqueIdentifier)
+    {
+        try
+        {
+            var reviews = await _reviewDbSet
+                .Where(x => x.Book.UniqueIdentifier == bookUniqueIdentifier)
+                .ToListAsync();
+            
+            return Result.Ok(reviews.MapToDomain());
+        }
+        catch (Exception e)
+        {
+            string errorMsg = $"Error listing all reviews in the database ${bookUniqueIdentifier}";
+            return Result.Fail(new Error(errorMsg).CausedBy(e));
+        }
+    }
+
+    public async Task<Result<BookReview>> GetBookReviewAsync(Guid bookUniqueIdentifier, Guid reviewUniqueIdentifier)
+    {
+        try
+        {
+            var review = await _reviewDbSet.Where(x => x.Book.UniqueIdentifier == bookUniqueIdentifier &&
+                                                       x.UniqueIdentifier == reviewUniqueIdentifier)
+                .FirstOrDefaultAsync();
+
+            return Result.Ok(review.MapToDomain());
+        }
+        catch (Exception e)
+        {
+            string errorMsg = $"Error listing review in the database ${bookUniqueIdentifier} ${reviewUniqueIdentifier}";
+            return Result.Fail(new Error(errorMsg).CausedBy(e));
+        }
+    }
+
+    public async Task<Result<BookReview>> CreateBookReviewAsync(int bookId, BookReview review)
+    {
+        try
+        {
+            var result = await _reviewDbSet.AddAsync(review.MapToDbo(bookId));
+
+            return Result.Ok(result.Entity.MapToDomain()); 
+        }
+        catch (Exception e)
+        {
+            const string errorMsg = "Error creating a review in the database";
+            return Result.Fail(new Error(errorMsg).CausedBy(e));
+        }
     }
 }

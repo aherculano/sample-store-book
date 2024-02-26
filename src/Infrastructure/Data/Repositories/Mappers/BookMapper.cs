@@ -3,7 +3,7 @@ using Infrastructure.Data.Models;
 
 namespace Infrastructure.Data.Repositories.Mappers;
 
-public static class BookMapper
+internal static class BookMapper
 {
     public static IEnumerable<Book> MapToDomain(this IList<BookDbo> source)
     {

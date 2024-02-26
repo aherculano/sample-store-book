@@ -16,11 +16,7 @@ public class CreateBookCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<
 {
     public async Task<Result<BookOutputDto>> Handle(CreateBookCommand request, CancellationToken cancellationToken)
     {
-        var book = new Book(
-            request.Book.Title,
-            request.Book.Author,
-            request.Book.Genre,
-            request.Book.PublishDate);
+        var book = request.Book.MapToDomain();
         await unitOfWork.BeginTransactionAsync();
         var result = await unitOfWork.BookRepository.CreateBookAsync(book);
         
@@ -29,14 +25,8 @@ public class CreateBookCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<
             await unitOfWork.SaveChangesAsync();
             await unitOfWork.CommitAsync();
             
-            var outputDto = new BookOutputDto(
-                book.UniqueIdentifier,
-                book.Title,
-                book.Author,
-                book.Genre,
-                book.PublishDate);
             
-            return Result.Ok(outputDto);
+            return Result.Ok(result.Value.MapToDto());
         }
 
         await unitOfWork.RollbackAsync();

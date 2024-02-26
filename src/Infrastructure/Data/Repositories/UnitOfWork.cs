@@ -11,7 +11,7 @@ public class UnitOfWork : IUnitOfWork
     public UnitOfWork(BookContext context)
     {
         _bookContext = context;
-        BookRepository = new BookRepository(_bookContext.Books);
+        BookRepository = new BookRepository(_bookContext.Books, _bookContext.Reviews);
     }
     
     public void Dispose()

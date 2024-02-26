@@ -25,6 +25,8 @@ public class BookReviewConfiguration : IEntityTypeConfiguration<BookReviewDbo>
         builder.Property(review => review.Id).UseIdentityColumn();
         builder.Property(review => review.ReviewerName).IsRequired();
         builder.Property(review => review.Review).IsRequired();
+        builder.Property(review => review.UniqueIdentifier).IsRequired();
+        builder.Property(review => review.ReviewDate).IsRequired();
         builder
             .HasOne(review => review.Book)
             .WithMany(b => b.Reviews)

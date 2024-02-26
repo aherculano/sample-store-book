@@ -42,6 +42,6 @@ public class BooksController(IMediator mediator) : ControllerBase
             return BadRequest();
         }
         
-        return Ok(result.Value);
+        return CreatedAtAction("GetBookById", new { bookUniqueIdentifier = result.Value.UniqueIdentifier }, result.Value);
     }
 }

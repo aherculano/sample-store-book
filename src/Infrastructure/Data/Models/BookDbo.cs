@@ -26,9 +26,13 @@ public class BookReviewDbo
     
     public int BookId { get; set; }
     
+    public Guid UniqueIdentifier { get; set; }
+    
     public string ReviewerName { get; set; }
     
     public string Review { get; set; }
+    
+    public DateTimeOffset ReviewDate { get; set; }
     
     public BookDbo Book { get; set; }
 }

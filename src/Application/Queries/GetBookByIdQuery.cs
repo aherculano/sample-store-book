@@ -21,12 +21,7 @@ public class GetBookByIdQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<G
 
         if (result.IsSuccess)
         {
-            return Result.Ok(new BookOutputDto(
-                result.Value.UniqueIdentifier,
-                result.Value.Title,
-                result.Value.Author,
-                result.Value.Genre,
-                result.Value.PublishDate));
+            return Result.Ok(result.Value.MapToDto());
         }
 
         return Result.Fail(new Error("Not Found"));
