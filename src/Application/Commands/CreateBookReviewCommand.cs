@@ -20,6 +20,11 @@ public class CreateBookReviewCommandHandler(IUnitOfWork unitOfWork) : IRequestHa
     {
         var bookResult = await unitOfWork.BookRepository.GetBookAsync(request.BookUniqueIdentifier);
 
+        if (bookResult.IsFailed)
+        {
+            return Result.Fail("Error getting the book");
+        }
+        
         var book = bookResult.Value;
 
         await unitOfWork.BeginTransactionAsync();

@@ -1,4 +1,5 @@
-﻿using Application;
+﻿using API.ErrorHandling;
+using Application;
 using Infrastructure.Settings;
 
 namespace API.Controllers;
@@ -31,6 +32,8 @@ public class Startup
         {
             endpoints.MapControllers();
         });
+        
+        app.UseMiddleware<ErrorHandlingMiddleware>();
     }
 
     private void ConfigureSettings(IServiceCollection services)

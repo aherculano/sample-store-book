@@ -1,5 +1,11 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using AutoFixture;
+using AutoFixture.AutoNSubstitute;
+using Domain.Repositories;
+using Infrastructure.Data.EntityFramework;
+using Infrastructure.Data.Models;
+using Microsoft.EntityFrameworkCore;
+using NSubstitute.Extensions;
 
 namespace UnitTests;
 
@@ -11,5 +17,6 @@ public abstract class TestsBase
     public TestsBase()
     {
         Fixture = new Fixture();
+        Fixture.Customize(new AutoNSubstituteCustomization( ){ConfigureMembers = true});
     }
 }

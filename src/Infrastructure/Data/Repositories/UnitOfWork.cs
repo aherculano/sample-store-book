@@ -32,7 +32,7 @@ public class UnitOfWork : IUnitOfWork
 
     public async Task RollbackAsync()
     {
-        await _bookContext.Database.CurrentTransaction.RollbackAsync();
+        await _bookContext.Database.CurrentTransaction?.RollbackAsync();
     }
 
     public async Task SaveChangesAsync()
