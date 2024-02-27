@@ -11,6 +11,7 @@ internal static class Configuration
     public static IServiceCollection ConfigurePipelineBehavior(this IServiceCollection services)
     {
         return services
+            .AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>))
             .AddTransient<IPipelineBehavior<CreateBookCommand, Result<BookOutputDto>>, ValidationBehavior<CreateBookCommand, BookOutputDto>>()
             .AddTransient<IPipelineBehavior<CreateBookReviewCommand, Result<BookReviewOutputDto>>, ValidationBehavior<CreateBookReviewCommand, BookReviewOutputDto>>();
     }
