@@ -26,7 +26,7 @@ public class BookReviewInputDtoTests : TestsBase
     public void MapToDomain_ValidDto_ReturnsValidDomainObject()
     {
         //Arrange
-        var dto = Fixture.Create<BookReviewInputDto>();
+        var dto = _fixture.Create<BookReviewInputDto>();
         
         //Act
         var domain = dto.MapToDomain();

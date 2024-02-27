@@ -1,4 +1,5 @@
-﻿using Application.Commands;
+﻿using System.Diagnostics.CodeAnalysis;
+using Application.Commands;
 using Application.DTO.Output;
 using Application.PipelineBehaviors;
 using FluentResults;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
 
+[ExcludeFromCodeCoverage]
 public static class Initializer
 {
     public static IServiceCollection ConfigureApplication(this IServiceCollection services)

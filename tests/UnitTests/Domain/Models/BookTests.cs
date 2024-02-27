@@ -13,11 +13,11 @@ public class BookTests : TestsBase
     public void Ensure_BookConstructor_InstantiatesRightParameters()
     {
         //Arrange
-        var bookUniqueIdentifier = Fixture.Create<Guid>();
-        var bookTitle = Fixture.Create<string>();
-        var bookAuthor = Fixture.Create<string>();
-        var bookGenre = Fixture.Create<string>();
-        var bookPublishDate = Fixture.Create<DateTimeOffset>();
+        var bookUniqueIdentifier = _fixture.Create<Guid>();
+        var bookTitle = _fixture.Create<string>();
+        var bookAuthor = _fixture.Create<string>();
+        var bookGenre = _fixture.Create<string>();
+        var bookPublishDate = _fixture.Create<DateTimeOffset>();
 
         //Act
         var book = new Book(

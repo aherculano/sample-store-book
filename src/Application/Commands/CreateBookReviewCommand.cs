@@ -21,8 +21,12 @@ public class CreateBookReviewCommandValidator : AbstractValidator<CreateBookRevi
     public CreateBookReviewCommandValidator()
     {
         RuleFor(x => x.Review).NotNull();
-        RuleFor(x => x.Review.Review).NotEmpty();
-        RuleFor(x => x.Review.ReviewerName).NotEmpty();
+        RuleFor(x => x.Review.Review)
+            .NotEmpty()
+            .When(x => x.Review is not null);
+        RuleFor(x => x.Review.ReviewerName)
+            .NotEmpty()
+            .When(x => x.Review is not null);
     }
 }
 

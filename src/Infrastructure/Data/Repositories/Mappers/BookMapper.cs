@@ -3,7 +3,7 @@ using Infrastructure.Data.Models;
 
 namespace Infrastructure.Data.Repositories.Mappers;
 
-internal static class BookMapper
+public static class BookMapper
 {
     public static IEnumerable<Book> MapToDomain(this IList<BookDbo> source)
     {
@@ -35,6 +35,11 @@ internal static class BookMapper
 
     public static BookDbo MapToDbo(this Book source)
     {
+        if (source is null)
+        {
+            return null;
+        }
+        
         return new BookDbo()
         {
             UniqueIdentifier = source.UniqueIdentifier,

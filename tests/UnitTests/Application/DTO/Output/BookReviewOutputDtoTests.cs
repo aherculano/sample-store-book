@@ -27,7 +27,7 @@ public class BookReviewOutputDtoTests: TestsBase
     public void MapToDto_ValidDomainEntity_ReturnsValidDto()
     {
         //Arrange
-        var bookReview = Fixture.Create<BookReview>();
+        var bookReview = _fixture.Create<BookReview>();
 
         //Act
         var dto = bookReview.MapToDto();

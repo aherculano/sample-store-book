@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces;
+﻿using System.Diagnostics.CodeAnalysis;
+using Domain.Interfaces;
 using Infrastructure.Data.EntityFramework;
 using Infrastructure.Data.Repositories;
 using Infrastructure.Settings;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.DependencyInjection;
 
+[ExcludeFromCodeCoverage]
 public static class SqlExtensions
 {
     public static IServiceCollection ConfigureSql(this IServiceCollection services)

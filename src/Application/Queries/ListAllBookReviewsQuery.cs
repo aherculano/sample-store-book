@@ -2,7 +2,6 @@
 using Domain.Interfaces;
 using Domain.Repositories;
 using FluentResults;
-using Infrastructure.Data.Models;
 using MediatR;
 
 namespace Application.Queries;
@@ -19,7 +18,12 @@ public class ListAllBookReviewsQueryHandler(IUnitOfWork unitOfWork) : IRequestHa
     public async Task<Result<IEnumerable<BookReviewOutputDto>>> Handle(ListAllBookReviewsQuery request, CancellationToken cancellationToken)
     {
         var result = await _bookRepository.GetAllReviewsAsync(request.BookUniqueIdentifier);
-        
-        return Result.Ok(result.Value.Select(x => x.MapToDto()));
+
+        if (result.IsSuccess)
+        {
+            return Result.Ok(result.Value.Select(x => x.MapToDto()));
+        }
+
+        return Result.Fail("Error getting all reviews");
     }
 }

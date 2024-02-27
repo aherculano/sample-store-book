@@ -12,11 +12,13 @@ namespace UnitTests;
 [ExcludeFromCodeCoverage]
 public abstract class TestsBase
 {
-    public  IFixture Fixture { get; }
+    public readonly IFixture _fixture;
     
     public TestsBase()
     {
-        Fixture = new Fixture();
-        Fixture.Customize(new AutoNSubstituteCustomization( ){ConfigureMembers = true});
+        _fixture = new Fixture();
+        _fixture.Customize(new AutoNSubstituteCustomization( ){ConfigureMembers = true});
+        _fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
+        _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
     }
 }

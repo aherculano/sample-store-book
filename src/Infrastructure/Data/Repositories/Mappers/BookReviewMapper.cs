@@ -3,7 +3,7 @@ using Infrastructure.Data.Models;
 
 namespace Infrastructure.Data.Repositories.Mappers;
 
-internal static class BookReviewMapper
+public static class BookReviewMapper
 {
     public static IEnumerable<BookReview> MapToDomain(this IEnumerable<BookReviewDbo> source)
     {

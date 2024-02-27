@@ -18,7 +18,7 @@ public class GetBookByIdQueryTests: TestsBase
     
     public GetBookByIdQueryTests()
     {
-        _unitOfWork = Fixture.Freeze<IUnitOfWork>();
+        _unitOfWork = _fixture.Freeze<IUnitOfWork>();
         _handler = new GetBookByIdQueryHandler(_unitOfWork);
     }
 
@@ -26,11 +26,11 @@ public class GetBookByIdQueryTests: TestsBase
     public async void Handle_RepositoryReturnsFail_ReturnFail()
     {
         //Arrange
-        var query = Fixture.Create<GetBookByIdQuery>();
+        var query = _fixture.Create<GetBookByIdQuery>();
         
         _unitOfWork.BookRepository
             .GetBookAsync(Arg.Any<Guid>())
-            .Returns(Result.Fail(Fixture.Create<Error>()));
+            .Returns(Result.Fail(_fixture.Create<Error>()));
 
         //Act
         var result = await _handler.Handle(query, CancellationToken.None);
@@ -44,8 +44,8 @@ public class GetBookByIdQueryTests: TestsBase
     public async void Handle_RepositoryReturnsOk_ResultOk()
     {
         //Arrange
-        var query = Fixture.Create<GetBookByIdQuery>();
-        var book = Fixture.Build<Book>()
+        var query = _fixture.Create<GetBookByIdQuery>();
+        var book = _fixture.Build<Book>()
             .With(x => x.UniqueIdentifier, query.BookUniqueIdentifier)
             .Create();
         _unitOfWork.BookRepository.GetBookAsync(query.BookUniqueIdentifier).Returns(Result.Ok(book));

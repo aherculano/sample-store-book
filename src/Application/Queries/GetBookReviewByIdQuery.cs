@@ -22,7 +22,12 @@ public class GetBookReviewByIdQueryHandler(IUnitOfWork unitOfWork) : IRequestHan
     {
         var result =
             await _bookRepository.GetBookReviewAsync(request.BookUniqueIdentifier, request.ReviewUniqueIdentifier);
+        
+        if (result.IsSuccess)
+        {
+            return Result.Ok(result.Value.MapToDto());
+        }
 
-        return Result.Ok(result.Value.MapToDto());
+        return Result.Fail(new Error("Error getting book review"));
     }
 }

@@ -27,7 +27,7 @@ public class BookOutputDtoTests : TestsBase
     public void MapToDto_ValidInstance_ReturnsValidDto()
     {
         //Arrange
-        Book book = Fixture.Create<Book>();
+        Book book = _fixture.Create<Book>();
         
         //Act
         var dto = book.MapToDto();

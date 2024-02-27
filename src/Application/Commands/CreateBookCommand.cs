@@ -17,10 +17,18 @@ public class CreateBookCommandValidator : AbstractValidator<CreateBookCommand>
     public CreateBookCommandValidator()
     {
         RuleFor(x => x.Book).NotNull();
-        RuleFor(x => x.Book.Title).NotEmpty();
-        RuleFor(x => x.Book.Author).NotEmpty();
-        RuleFor(x => x.Book.Genre).NotEmpty();
-        RuleFor(x => x.Book.PublishDate).NotEmpty();
+        RuleFor(x => x.Book.Title)
+            .NotEmpty()
+            .When(x => x.Book is not null);
+        RuleFor(x => x.Book.Author).NotNull()
+            .NotEmpty()
+            .When(x => x.Book is not null);;
+        RuleFor(x => x.Book.Genre).NotNull()
+            .NotEmpty()
+            .When(x => x.Book is not null);;
+        RuleFor(x => x.Book.PublishDate)
+            .NotEmpty()
+            .When(x => x.Book is not null);;
     }
 }
 public class CreateBookCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<CreateBookCommand, Result<BookOutputDto>>
