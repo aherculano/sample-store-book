@@ -1,8 +1,10 @@
-﻿using Application.DTO.Input;
+﻿using System.Data;
+using Application.DTO.Input;
 using Application.DTO.Output;
 using Domain.Interfaces;
 using Domain.Models;
 using FluentResults;
+using FluentValidation;
 using MediatR;
 
 namespace Application.Commands;
@@ -12,6 +14,16 @@ public class CreateBookReviewCommand(Guid bookUniqueIdentifier, BookReviewInputD
     public Guid BookUniqueIdentifier = bookUniqueIdentifier;
 
     public BookReviewInputDto Review = review;
+}
+
+public class CreateBookReviewCommandValidator : AbstractValidator<CreateBookReviewCommand>
+{
+    public CreateBookReviewCommandValidator()
+    {
+        RuleFor(x => x.Review).NotNull();
+        RuleFor(x => x.Review.Review).NotEmpty();
+        RuleFor(x => x.Review.ReviewerName).NotEmpty();
+    }
 }
 
 public class CreateBookReviewCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<CreateBookReviewCommand, Result<BookReviewOutputDto>>

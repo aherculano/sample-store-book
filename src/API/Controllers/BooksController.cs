@@ -26,10 +26,10 @@ public class BooksController(IMediator mediator) : ControllerBase
         var result = await mediator.Send(query);
         if (result.IsFailed)
         {
-            return NotFound();
+            return BadRequest();
         }
 
-        return Ok(result.Value);
+        return result.Value != null ? Ok(result.Value) : NotFound();
     }
     
     [HttpPost]

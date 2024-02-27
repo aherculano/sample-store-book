@@ -31,6 +31,10 @@ public class BookReviewsController(IMediator mediator) : ControllerBase
     {
         var query = new GetBookReviewByIdQuery(bookId, reviewId);
         var result = await mediator.Send(query);
-        return Ok(result.Value);
+        if (result.IsFailed)
+        {
+            return BadRequest();
+        }
+        return result.Value != null ? Ok(result.Value) : NotFound();
     }
 }

@@ -1,8 +1,8 @@
 ﻿using Application.DTO.Input;
 using Application.DTO.Output;
 using Domain.Interfaces;
-using Domain.Models;
 using FluentResults;
+using FluentValidation;
 using MediatR;
 
 namespace Application.Commands;
@@ -12,6 +12,17 @@ public class CreateBookCommand(BookInputDto book) : IRequest<Result<BookOutputDt
     public readonly BookInputDto Book = book;
 }
 
+public class CreateBookCommandValidator : AbstractValidator<CreateBookCommand>
+{
+    public CreateBookCommandValidator()
+    {
+        RuleFor(x => x.Book).NotNull();
+        RuleFor(x => x.Book.Title).NotEmpty();
+        RuleFor(x => x.Book.Author).NotEmpty();
+        RuleFor(x => x.Book.Genre).NotEmpty();
+        RuleFor(x => x.Book.PublishDate).NotEmpty();
+    }
+}
 public class CreateBookCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<CreateBookCommand, Result<BookOutputDto>>
 {
     public async Task<Result<BookOutputDto>> Handle(CreateBookCommand request, CancellationToken cancellationToken)

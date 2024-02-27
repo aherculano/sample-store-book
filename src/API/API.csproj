@@ -24,4 +24,13 @@
     <Content Remove="appsettings.Development.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Middlewares\FailedResultMiddleware.cs" />
+    <Compile Remove="Middlewares\NotFoundMiddleware.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Middlewares\" />
+  </ItemGroup>
+
 </Project>

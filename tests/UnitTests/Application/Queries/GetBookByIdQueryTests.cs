@@ -29,7 +29,7 @@ public class GetBookByIdQueryTests: TestsBase
         var query = Fixture.Create<GetBookByIdQuery>();
         
         _unitOfWork.BookRepository
-            .GetBookAsync(Fixture.Create<Guid>())
+            .GetBookAsync(Arg.Any<Guid>())
             .Returns(Result.Fail(Fixture.Create<Error>()));
 
         //Act
@@ -37,7 +37,7 @@ public class GetBookByIdQueryTests: TestsBase
 
         //Assert
         result.IsFailed.Should().BeTrue();
-        await _unitOfWork.BookRepository.Received(1).GetBookAsync(Arg.Any<Guid>());
+        await _unitOfWork.BookRepository.Received(1).GetBookAsync(query.BookUniqueIdentifier);
     }
 
     [Fact]
