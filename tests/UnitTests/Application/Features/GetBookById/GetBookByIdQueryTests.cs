@@ -8,7 +8,7 @@ using FluentResults;
 using NSubstitute;
 using Xunit;
 
-namespace UnitTests.Application.Queries;
+namespace UnitTests.Application.Features.GetBookById;
 
 [ExcludeFromCodeCoverage]
 public class GetBookByIdQueryTests: TestsBase

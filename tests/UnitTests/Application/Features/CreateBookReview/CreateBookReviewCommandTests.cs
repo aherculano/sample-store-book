@@ -10,7 +10,7 @@ using FluentResults;
 using NSubstitute;
 using Xunit;
 
-namespace UnitTests.Application.Command;
+namespace UnitTests.Application.Features.CreateBookReview;
 
 [ExcludeFromCodeCoverage]
 public class CreateBookReviewCommandTests: TestsBase
@@ -103,60 +103,5 @@ public class CreateBookReviewCommandTests: TestsBase
         await _unitOfWork.Received(0).RollbackAsync();
         await _unitOfWork.BookRepository.Received(1).GetBookAsync(Arg.Any<Guid>());
         await _unitOfWork.BookRepository.Received(1).CreateBookReviewAsync(Arg.Any<int>(), Arg.Any<BookReview>());
-    }
-
-    [Fact]
-    public void Validator_ValidCommand_ReturnsOk()
-    {
-        //Arrange
-        var validator = new CreateBookReviewCommandValidator();
-        var command = _fixture.Create<CreateBookReviewCommand>();
-        
-        //Act
-        var validationResult = validator.Validate(command);
-
-        //Assert
-        validationResult.IsValid.Should().BeTrue();
-    }
-    
-    [Fact]
-    public void Validator_NullCommand_ReturnsInvalid()
-    {
-        //Arrange
-        var validator = new CreateBookReviewCommandValidator();
-        var command = _fixture
-            .Build<CreateBookReviewCommand>()
-            .With(x => x.Review, (BookReviewInputDto) null)
-            .Create();
-        
-        //Act
-        var validationResult = validator.Validate(command);
-
-        //Assert
-        validationResult.IsValid.Should().BeFalse();
-        validationResult.Errors.Count.Should().Be(1);
-    }
-    
-    [Fact]
-    public void Validator_InvalidCommand_ReturnsInvalid()
-    {
-        //Arrange
-        var validator = new CreateBookReviewCommandValidator();
-        var dto = _fixture.Build<BookReviewInputDto>()
-            .With(x => x.Review, string.Empty)
-            .With(x => x.ReviewerName, string.Empty)
-            .Create();
-        
-        var command = _fixture
-            .Build<CreateBookReviewCommand>()
-            .With(x => x.Review, dto)
-            .Create();
-        
-        //Act
-        var validationResult = validator.Validate(command);
-
-        //Assert
-        validationResult.IsValid.Should().BeFalse();
-        validationResult.Errors.Count.Should().Be(2);
     }
 }

@@ -9,7 +9,7 @@ using FluentResults;
 using NSubstitute;
 using Xunit;
 
-namespace UnitTests.Application.Queries;
+namespace UnitTests.Application.Features.ListAllBookReviews;
 
 [ExcludeFromCodeCoverage]
 public class ListAllBookReviewsQueryTests : TestsBase

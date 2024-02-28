@@ -10,7 +10,7 @@ using FluentResults;
 using NSubstitute;
 using Xunit;
 
-namespace UnitTests.Application.Command;
+namespace UnitTests.Application.Features.CreateBook;
 
 [ExcludeFromCodeCoverage]
 public class CreateBookCommandTests : TestsBase
@@ -68,55 +68,5 @@ public class CreateBookCommandTests : TestsBase
         await _unitOfWork.Received(0).RollbackAsync();
         await _unitOfWork.Received(1).SaveChangesAsync();
         await _unitOfWork.Received(1).CommitAsync();
-    }
-
-    [Fact]
-    public void Validator_ValidInputCommand_ReturnsOk()
-    {
-        //Arrange
-        var validator = new CreateBookCommandValidator();
-        var command = _fixture.Create<CreateBookCommand>();
-        
-        //Act
-        var validationResult = validator.Validate(command);
-
-        //Assert
-        validationResult.IsValid.Should().BeTrue();
-    }
-
-    [Fact]
-    public void Validator_NullCommand_ReturnsInvalid()
-    {
-        //Arrange
-        var validator = new CreateBookCommandValidator();
-        CreateBookCommand command = new CreateBookCommand(null);
-        
-        //Act
-        var validationResult = validator.Validate(command);
-
-        //Assert
-        validationResult.IsValid.Should().BeFalse();
-        validationResult.Errors.Count.Should().Be(1);
-    }
-
-    [Fact]
-    public void Validator_InvalidInputCommand_ReturnsInvalid()
-    {
-        //Arrange
-        var validator = new CreateBookCommandValidator();
-        var dto = _fixture.Build<BookInputDto>()
-            .With(x => x.Author, string.Empty)
-            .With(x => x.Title, string.Empty)
-            .With(x => x.Genre, string.Empty)
-            .Create();
-
-        CreateBookCommand command = new CreateBookCommand(dto);
-        
-        //Act
-        var validationResult = validator.Validate(command);
-
-        //Assert
-        validationResult.IsValid.Should().BeFalse();
-        validationResult.Errors.Count.Should().Be(3);
     }
 }
