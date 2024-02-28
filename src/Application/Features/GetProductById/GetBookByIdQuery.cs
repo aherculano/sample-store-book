@@ -4,7 +4,7 @@ using Domain.Repositories;
 using FluentResults;
 using MediatR;
 
-namespace Application.Queries;
+namespace Application.Features.ListAllBookReviews;
 
 public class GetBookByIdQuery(Guid bookUniqueIdentifier) : IRequest<Result<BookOutputDto>>
 {

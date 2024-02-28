@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Application.Commands;
+using Application.Features.CreteBookReview;
 using Application.DTO.Output;
 using FluentResults;
 using MediatR;
@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Application.PipelineBehaviors;
 
 [ExcludeFromCodeCoverage]
-internal static class Configuration
+internal static class MediatrPipelineExtensions
 {
     public static IServiceCollection ConfigurePipelineBehavior(this IServiceCollection services)
     {

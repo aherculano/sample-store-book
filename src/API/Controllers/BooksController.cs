@@ -1,7 +1,7 @@
-﻿using Application.Commands;
+﻿using Application.Features.CreteBookReview;
 using Application.DTO.Input;
 using Application.DTO.Output;
-using Application.Queries;
+using Application.Features.ListAllBookReviews;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

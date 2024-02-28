@@ -1,11 +1,10 @@
-﻿using Application.DTO.Input;
-using Application.DTO.Output;
+﻿using Application.DTO.Output;
 using Domain.Interfaces;
 using Domain.Repositories;
 using FluentResults;
 using MediatR;
 
-namespace Application.Queries;
+namespace Application.Features.ListAllBookReviews;
 
 public class GetBookReviewByIdQuery(Guid bookUniqueIdentifier, Guid reviewUniqueIdentifier)
     : IRequest<Result<BookReviewOutputDto>>

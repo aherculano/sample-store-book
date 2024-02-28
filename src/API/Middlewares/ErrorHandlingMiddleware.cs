@@ -1,31 +1,29 @@
-﻿using System.Net.Mime;
-using Domain.Interfaces;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.ErrorHandling;
+namespace API.Middlewares;
 
-public class ErrorHandlingMiddleware
+public class ErrorHandlingMiddleware : IMiddleware
 {
-    private readonly RequestDelegate _next;
-
-    public ErrorHandlingMiddleware(RequestDelegate next)
-    {
-        _next = next;
-    }
-    
-
-    public async Task Invoke(HttpContext context, IUnitOfWork unitOfWork)
+    public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         try
         {
-            await _next(context);
+            await next(context);
         }
-        catch (InvalidOperationException)
+        catch (Exception)
         {
-            await unitOfWork.RollbackAsync();
-
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync("Internal Server Error");
+            ProblemDetails details = new()
+            {
+                Status = StatusCodes.Status500InternalServerError,
+                Type = "Server Error",
+                Title = "Server Error",
+                Detail = "An internal server error has occurred"
+            };
+            string serialized = JsonSerializer.Serialize(details);
+            await context.Response.WriteAsync(serialized);
         }
     }
 }

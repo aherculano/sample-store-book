@@ -7,27 +7,13 @@ using FluentResults;
 using FluentValidation;
 using MediatR;
 
-namespace Application.Commands;
+namespace Application.Features.CreteBookReview;
 
 public class CreateBookReviewCommand(Guid bookUniqueIdentifier, BookReviewInputDto review) : IRequest<Result<BookReviewOutputDto>>
 {
     public Guid BookUniqueIdentifier = bookUniqueIdentifier;
 
     public BookReviewInputDto Review = review;
-}
-
-public class CreateBookReviewCommandValidator : AbstractValidator<CreateBookReviewCommand>
-{
-    public CreateBookReviewCommandValidator()
-    {
-        RuleFor(x => x.Review).NotNull();
-        RuleFor(x => x.Review.Review)
-            .NotEmpty()
-            .When(x => x.Review is not null);
-        RuleFor(x => x.Review.ReviewerName)
-            .NotEmpty()
-            .When(x => x.Review is not null);
-    }
 }
 
 public class CreateBookReviewCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<CreateBookReviewCommand, Result<BookReviewOutputDto>>

@@ -1,4 +1,4 @@
-﻿using API.ErrorHandling;
+﻿using API.Middlewares;
 using Application;
 using Infrastructure.Settings;
 
@@ -21,19 +21,20 @@ public class Startup
         services.AddRouting();
         services.AddSwaggerGen();
         services.ConfigureApplication();
+        services.AddTransient<ErrorHandlingMiddleware>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         app.UseSwagger();
         app.UseSwaggerUI();
+        app.UseMiddleware<ErrorHandlingMiddleware>();
         app.UseRouting();
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
         });
         
-        app.UseMiddleware<ErrorHandlingMiddleware>();
     }
 
     private void ConfigureSettings(IServiceCollection services)

@@ -4,7 +4,7 @@ using Domain.Models;
 using FluentResults;
 using MediatR;
 
-namespace Application.Queries;
+namespace Application.Features.ListAllBookReviews;
 
 public class ListAllBooksQuery : IRequest<Result<IEnumerable<BookOutputDto>>>;
 

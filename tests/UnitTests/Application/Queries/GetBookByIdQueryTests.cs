@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Application.Queries;
+using Application.Features.ListAllBookReviews;
 using AutoFixture;
 using Domain.Interfaces;
 using Domain.Models;
