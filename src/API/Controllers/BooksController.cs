@@ -1,6 +1,8 @@
-﻿using Application.Features.CreteBookReview;
+﻿using API.ResultExtensions;
+using Application.Features.CreteBookReview;
 using Application.DTO.Input;
 using Application.DTO.Output;
+using Application.Features.GetBookById;
 using Application.Features.ListAllBookReviews;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -24,12 +26,13 @@ public class BooksController(IMediator mediator) : ControllerBase
     {
         var query = new GetBookByIdQuery(bookUniqueIdentifier);
         var result = await mediator.Send(query);
+        
         if (result.IsFailed)
         {
-            return BadRequest();
+            return result.ToFailedActionResult();
         }
 
-        return result.Value != null ? Ok(result.Value) : NotFound();
+        return Ok(result.Value);
     }
     
     [HttpPost]
@@ -39,7 +42,7 @@ public class BooksController(IMediator mediator) : ControllerBase
         var result = await mediator.Send(command);
         if (result.IsFailed)
         {
-            return BadRequest();
+            return result.ToFailedActionResult();
         }
         
         return CreatedAtAction("GetBookById", new { bookUniqueIdentifier = result.Value.UniqueIdentifier }, result.Value);

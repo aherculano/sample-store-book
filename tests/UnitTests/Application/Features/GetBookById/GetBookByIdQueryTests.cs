@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Application.Features.GetBookById;
 using Application.Features.ListAllBookReviews;
 using AutoFixture;
 using Domain.Interfaces;

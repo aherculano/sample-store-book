@@ -1,10 +1,11 @@
 ﻿using Application.DTO.Output;
+using Application.Errors;
 using Domain.Interfaces;
 using Domain.Repositories;
 using FluentResults;
 using MediatR;
 
-namespace Application.Features.ListAllBookReviews;
+namespace Application.Features.GetBookById;
 
 public class GetBookByIdQuery(Guid bookUniqueIdentifier) : IRequest<Result<BookOutputDto>>
 {
@@ -21,7 +22,9 @@ public class GetBookByIdQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<G
 
         if (result.IsSuccess)
         {
-            return Result.Ok(result.Value.MapToDto());
+            return result.Value != null ? 
+                Result.Ok(result.Value.MapToDto()) :
+                Result.Fail(new NotFoundError($"Book {request.BookUniqueIdentifier} does not exist"));
         }
 
         return Result.Fail(new Error("Not Found"));

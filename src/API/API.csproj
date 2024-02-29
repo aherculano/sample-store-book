@@ -29,8 +29,4 @@
     <Compile Remove="Middlewares\NotFoundMiddleware.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Middlewares\" />
-  </ItemGroup>
-
 </Project>

@@ -1,4 +1,5 @@
-﻿using FluentResults;
+﻿using Application.Errors;
+using FluentResults;
 using FluentValidation;
 using MediatR;
 
@@ -26,7 +27,7 @@ public class ValidationBehavior<TRequest, T> : IPipelineBehavior<TRequest, Resul
         if (failures.Any())
         {
             var exception = new ValidationException(failures);
-            return Result.Fail(new Error("Error validating command").CausedBy(exception));
+            return Result.Fail(new ValidationError(failures).CausedBy(exception));
         }
 
         return await next();

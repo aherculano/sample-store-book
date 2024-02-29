@@ -1,4 +1,5 @@
-﻿using Application.Features.CreteBookReview;
+﻿using API.ResultExtensions;
+using Application.Features.CreteBookReview;
 using Application.DTO.Input;
 using Application.Features.ListAllBookReviews;
 using MediatR;
@@ -15,6 +16,10 @@ public class BookReviewsController(IMediator mediator) : ControllerBase
     {
         var query = new ListAllBookReviewsQuery(bookId);
         var result = await mediator.Send(query);
+        if (result.IsFailed)
+        {
+            return result.ToFailedActionResult();
+        }
         return Ok(result.Value);
     }
 
@@ -23,6 +28,10 @@ public class BookReviewsController(IMediator mediator) : ControllerBase
     {
         var command = new CreateBookReviewCommand(bookId, review);
         var result = await mediator.Send(command);
+        if (result.IsFailed)
+        {
+            return result.ToFailedActionResult();
+        }
         return CreatedAtAction("GetReviewById",new { bookId, reviewId = result.Value.UniqueIdentifier }, result.Value);
     }
 
@@ -33,7 +42,7 @@ public class BookReviewsController(IMediator mediator) : ControllerBase
         var result = await mediator.Send(query);
         if (result.IsFailed)
         {
-            return BadRequest();
+            return result.ToFailedActionResult();
         }
         return result.Value != null ? Ok(result.Value) : NotFound();
     }
